@@ -1,0 +1,13 @@
+<form bindsubmit="submitAll">
+<view>
+  <view class="container">
+    <label>时间：</label>
+  </view>
+  <view>  
+    <label>年：</label>
+    <input name="year" placeholder="2017" />
+  </view>
+  </view>
+</form>
+
+<button bindtap="uploadResidence">Upload</button>
