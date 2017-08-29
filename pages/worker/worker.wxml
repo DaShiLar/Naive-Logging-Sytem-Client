@@ -1,2 +1,270 @@
-<!--worker.wxml-->
-<text>worker.wxml</text>
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__hd">
+    <view class="page__title" style="text-align:center;font-size:60px">追踪日志</view>
+  </view>
+  <view class="page__bd">
+    <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">错误提示</view>
+
+    <view class="weui-cells__title" style="text-align:center;font-size:30px">项目基本情况</view>
+    <view class="weui-cells weui-cells_after-title">
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">组织名称</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入组织名称" bindinput="zzmcChange" />
+        </view>
+      </view>
+
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">所属社区</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入所属社区" bindinput="sssqChange" />
+        </view>
+      </view>
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">跟访地点</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入跟访地址" bindinput="gfddChange" />
+        </view>
+      </view>
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">跟访时间</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入跟访时间" bindinput="gfsjChange" />
+        </view>
+      </view>
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">跟访人姓名</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入跟访人姓名" bindinput="gfrxmChange" />
+        </view>
+      </view>
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">跟访时长</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入跟访时长" bindinput="gfscChange" />
+        </view>
+      </view>
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">跟访形式</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入跟访形式" bindinput="gfxsChange" />
+        </view>
+      </view>
+    </view>
+
+
+
+    <view class="weui-cells__title" style="text-align:center;font-size:30px">项目细节</view>
+
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">活动名称</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入活动名称" bindinput="hdmcChange" />
+        </view>
+      </view>
+
+      <radio-group style="display:flex; flex-dierection:row" bindchange="radioxmsjhChange">
+        <label class="weui-cell weui-check__label" wx:for="{{radioxmsjhItems}}" wx:key="value">
+              <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
+
+              <view class="weui-cell__bd">{{item.name}}</view>
+                <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+                  <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+                </view>
+          </label>
+      </radio-group>
+    </view>
+
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">活动人数</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入活动人数" bindinput="hdmcChange" />
+        </view>
+      </view>
+
+      <radio-group style="display:flex; flex-dierection:row" bindchange="radiofwdxChange">
+        <label class="weui-cell weui-check__label" wx:for="{{radiofwdxItems}}" wx:key="value">
+              <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
+
+              <view class="weui-cell__bd">{{item.name}}</view>
+                <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+                  <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+                </view>
+          </label>
+      </radio-group>
+
+    </view>
+
+
+    <view class="weui-cells__title">活动目标</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" placeholder="请输入活动目标" style="height: 3.3em" bindinput="hdmbChange" />
+          <view class="weui-textarea-counter">0/200</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-cells__title">活动流程及内容记录</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" placeholder="请输入活动流程" style="height: 3.3em" bindinput="hdlcChange" />
+          <view class="weui-textarea-counter">0/200</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-cells__title">活动评价及优化建议</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">优点</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入优点" bindinput="ydChange" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">缺点</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入缺点" bindinput="qdChange" />
+        </view>
+      </view>
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" placeholder="请输入活动优化建议" style="height: 3.3em" bindinput="yhjyChange" />
+          <view class="weui-textarea-counter">0/200</view>
+        </view>
+      </view>
+    </view>
+
+
+    <view class="weui-cells__title" style="text-align:center;font-size:30px">个人日志</view>
+    <view class="weui-cells__title" style="font-size:15px">追踪过程记录及个人感受</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" placeholder="注：活动探访记录活动开展情况，项目访谈则进行访谈记录" style="height: 5.5em" bindinput="grgsChange" />
+          <view class="weui-textarea-counter">0/200</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-cells__title" style="font-size:15px">自组织需求</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" style="height: 5.5em" bindinput="zzzxqChange" />
+          <view class="weui-textarea-counter">0/200</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-cells__title" style="font-size:15px">个人对自组织培育的想法</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" style="height: 5.5em" bindinput="pykfChange" />
+          <view class="weui-textarea-counter">0/200</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="page__bd">
+      <view class="weui-cells__title" style="font-size:15px">附件</view>
+      <view class="weui-cells">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view class="weui-uploader">
+              <view class="weui-uploader__hd">
+                <view class="weui-uploader__title">图片</view>
+                <view class="weui-uploader__info">{{files.length}}/10</view>
+              </view>
+              <view class="weui-uploader__bd">
+                <view class="weui-uploader__files" id="uploaderFiles">
+                  <block wx:for="{{FilePaths}}" wx:key="*this">
+                    <view wx:if="{{item.type=='photo'}}" class="weui-uploader__file" bindtap="previewImage" id="{{item.path}}">
+                      <image class="weui-uploader__img" src="{{item.path}}" mode="aspectFill" />
+                    </view>
+                  </block>
+
+
+
+                </view>
+                <view class="weui-uploader__input-box">
+                  <view class="weui-uploader__input" bindtap="chooseImage"></view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="weui-cells">
+        <view class="weui-cell">
+          <view class="weui-cell__bd">
+            <view class="weui-uploader">
+              <view class="weui-uploader__hd">
+                <view class="weui-uploader__title">视频（可选）</view>
+                <view class="weui-uploader__info">{{files.length}}/10</view>
+              </view>
+              <view class="weui-uploader__bd">
+                <view class="weui-uploader__files" id="uploaderFiles">
+                  <block wx:for="{{FilePaths}}" wx:key="*this">
+                    <view wx:if="{{item.type=='video'}}" class="weui-uploader__file" bindtap="previewImage" id="{{item.path}}">
+                      <image class="weui-uploader__img" src="{{item.path}}" mode="aspectFill" />
+                    </view>
+                  </block>
+
+
+
+                </view>
+                <view class="weui-uploader__input-box">
+                  <view class="weui-uploader__input" bindtap="chooseVideo"></view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+
+
+
+    <view class="weui-btn-area">
+      <button class="weui-btn" type="primary" bindtap="submitAll">确定</button>
+    </view>
+  </view>
+</view>
