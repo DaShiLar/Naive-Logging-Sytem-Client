@@ -1,6 +1,6 @@
 <view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
   <view class="page__hd">
-    <view class="page__title" style="text-align:center;font-size:60px">追踪日志</view>
+    <view class="page__title" style="text-align:center;font-size:40px">追踪日志</view>
   </view>
   <view class="page__bd">
     <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">错误提示</view>
@@ -12,9 +12,9 @@
         <view class="weui-cell__hd">
           <view class="weui-label">组织名称</view>
         </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入组织名称" bindinput="zzmcChange" />
-        </view>
+         <picker bindchange="bindOrganizationPickerChange" value="{{indexOrganization}}" range="{{arrayOrganizationName}}">
+            <text class="weui-input">{{arrayOrganizationName[indexOrganization]}}</text>
+         </picker>
       </view>
 
 
@@ -23,7 +23,7 @@
           <view class="weui-label">所属社区</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入所属社区" bindinput="sssqChange" />
+          <text class="weui-input">{{arrayOrganizationLocation[indexOrganization]}}</text>
         </view>
       </view>
 
@@ -32,16 +32,7 @@
           <view class="weui-label">跟访地点</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入跟访地址" bindinput="gfddChange" />
-        </view>
-      </view>
-
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">跟访时间</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入跟访时间" bindinput="gfsjChange" />
+          <input class="weui-input" value="{{gfdd}}" placeholder="请输入跟访地点" bindinput="gfddChange" />
         </view>
       </view>
 
@@ -50,78 +41,101 @@
           <view class="weui-label">跟访人姓名</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入跟访人姓名" bindinput="gfrxmChange" />
+          <input class="weui-input" value="{{gfrxm}}" placeholder="请输入跟访人姓名" bindinput="gfrxmChange" />
         </view>
       </view>
 
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <view class="weui-label">跟访时长</view>
+          <view class="weui-label">跟访日期</view>
         </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入跟访时长" bindinput="gfscChange" />
-        </view>
+        <picker class="weui-btn" mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="dateChange">
+          <text class="weui-input">{{date}}</text>
+        </picker>
       </view>
 
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">跟访形式</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入跟访形式" bindinput="gfxsChange" />
-        </view>
-      </view>
     </view>
 
 
 
     <view class="weui-cells__title" style="text-align:center;font-size:30px">项目细节</view>
-
+    
+    <view class="weui-cells__title" >跟访形式</view>
+    <view class="weui-cells weui-cells_after-title">
+    <view>
+      <radio-group bindchange="radiogfxsChange">
+        <label class="weui-cell weui-check__label" wx:for="{{radiogfxsItems}}">
+          <radio value="{{item.value}}" checked="{{item.checked}}"/>{{item.name}}
+        </label>
+      </radio-group>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">
+      <view style="display:{{showOther}}">  
+      <input placeholder="请输入其他方式" value="{{gfxs}}" bindinput="gfxsChange"/>
+      </view>
+      </view>
+      </view>
+    </view>
+    </view>
+    
+    <view class="weui-cells__title" >活动名称</view>
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">活动名称</view>
-        </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入活动名称" bindinput="hdmcChange" />
+          <input class="weui-input" value="{{hdmc}}" placeholder="请输入活动名称" bindinput="hdmcChange" />
         </view>
       </view>
-
-      <radio-group style="display:flex; flex-dierection:row" bindchange="radioxmsjhChange">
-        <label class="weui-cell weui-check__label" wx:for="{{radioxmsjhItems}}" wx:key="value">
-              <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
-
-              <view class="weui-cell__bd">{{item.name}}</view>
-                <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
-                  <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
-                </view>
-          </label>
+    </view>  
+    
+    <view class="weui-cells__title" >是否在项目书计划中</view>
+    <view class="weui-cells weui-cells_after-title">
+    <view>
+      <radio-group bindchange="radioxmsjhChange">
+        <label class="weui-cell weui-check__label" wx:for="{{radioxmsjhItems}}">
+              <radio value="{{item.value}}" checked="{{item.checked}}"/>{{item.name}}
+        </label>
       </radio-group>
     </view>
-
+    </view>
+    
+    <view class="weui-cells__title" >活动人数</view>
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">活动人数</view>
-        </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入活动人数" bindinput="hdmcChange" />
+          <input class="weui-input" value="{{hdrs}}" placeholder="请输入活动人数" bindinput="hdrsChange" />
         </view>
       </view>
-
-      <radio-group style="display:flex; flex-dierection:row" bindchange="radiofwdxChange">
-        <label class="weui-cell weui-check__label" wx:for="{{radiofwdxItems}}" wx:key="value">
-              <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
-
-              <view class="weui-cell__bd">{{item.name}}</view>
-                <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
-                  <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
-                </view>
+    </view>
+    <view class="weui-cells__title">是否为服务对象</view>
+    <view class="weui-cells weui-cells_after-title">
+      <radio-group bindchange="radiofwdxChange">
+        <label class="weui-cell weui-check__label" wx:for="{{radiofwdxItems}}">
+              <radio value="{{item.value}}" checked="{{item.checked}}"/>{{item.name}}
           </label>
       </radio-group>
 
     </view>
 
+    <view class="weui-cells__title">具体时间</view>
+    <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">开始时间</view>
+        </view>
+        <picker class="weui-btn" mode="time" value="{{beginTime}}" start="09:01" end="21:01" bindchange="bindBeginTimeChange">
+            <text class="weui-input">{{beginTime}}</text>
+        </picker>
+      </view>
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">结束时间</view>
+        </view>
+        <picker class="weui-btn" mode="time" value="{{endTime}}" start="09:01" end="21:01" bindchange="bindEndTimeChange">
+            <text class="weui-input">{{endTime}}</text>
+        </picker>
+      </view>
+    </view>
 
     <view class="weui-cells__title">活动目标</view>
     <view class="weui-cells weui-cells_after-title">
@@ -137,7 +151,7 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell">
         <view class="weui-cell__bd">
-          <textarea class="weui-textarea" placeholder="请输入活动流程" style="height: 3.3em" bindinput="hdlcChange" />
+          <textarea class="weui-textarea" placeholder="请输入活动流程" style="height: 20em" bindinput="hdlcChange" />
           <view class="weui-textarea-counter">0/200</view>
         </view>
       </view>
@@ -150,7 +164,7 @@
           <view class="weui-label">优点</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入优点" bindinput="ydChange" />
+          <input class="weui-input" value="{{yd}}" placeholder="请输入优点" bindinput="ydChange" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -158,12 +172,12 @@
           <view class="weui-label">缺点</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入缺点" bindinput="qdChange" />
+          <input class="weui-input" value="{{qd}}" placeholder="请输入缺点" bindinput="qdChange" />
         </view>
       </view>
       <view class="weui-cell">
         <view class="weui-cell__bd">
-          <textarea class="weui-textarea" placeholder="请输入活动优化建议" style="height: 3.3em" bindinput="yhjyChange" />
+          <textarea class="weui-textarea" style="height: 10em" placeholder="请输入活动优化建议" style="height: 3.3em" bindinput="yhjyChange" />
           <view class="weui-textarea-counter">0/200</view>
         </view>
       </view>
@@ -175,7 +189,7 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell">
         <view class="weui-cell__bd">
-          <textarea class="weui-textarea" placeholder="注：活动探访记录活动开展情况，项目访谈则进行访谈记录" style="height: 5.5em" bindinput="grgsChange" />
+          <textarea class="weui-textarea" placeholder="注：活动探访记录活动开展情况，项目访谈则进行访谈记录" style="height: 10em" bindinput="grgsChange" />
           <view class="weui-textarea-counter">0/200</view>
         </view>
       </view>
@@ -195,7 +209,7 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell">
         <view class="weui-cell__bd">
-          <textarea class="weui-textarea" style="height: 5.5em" bindinput="pykfChange" />
+          <textarea class="weui-textarea" style="height: 7em" bindinput="pykfChange" />
           <view class="weui-textarea-counter">0/200</view>
         </view>
       </view>

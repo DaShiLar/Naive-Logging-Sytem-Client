@@ -4,19 +4,38 @@ var util = require('../../utils/util.js');
 Page({
   data: {
     files: [],
+    organization: "",
     FilePaths: [],
     date: "",
     time: "12:01",
     location: "",
-    organization: "",
     joinNumber: "", //参加人数
     name: "",     //发声者名称
     feeling: "",  //感受 
     theme: "",
     content: "",
     other: "",
+    indexOrganization: 21,  //选择的社区名称的编号,默认为最大编号数加一
+    arrayOrganizationName: ["百顺社区院长聚乐部",
+      "百顺百计舞蹈队", "王回回文化传承发展小组", "青少年教育协会", "石头社区助老服务队", "百事顺遂京剧票社",
+      "怡和女子健身队", "延寿单弦队", "尚德公益团队养犬俱乐部", "大栅栏百顺摄影协会", "澜馨布工坊",
+      "前西社区助老服务队", "姐妹合唱队", "绿色风尚馆", "睿邻雅趣艺术沙龙", "导览队", "智惠创业坊", "左邻右舍美食团",
+      "大栅栏统战艺术团", "延寿朗诵队", "大栅栏西街社区合唱艺术团", "请点击选择社区名称"
+    ],
 
   },
+
+
+  //政府组织选择监听器
+  bindOrganizationPickerChange: function (e) {
+    var index = parseInt(e.detail.value);
+    var organization = this.data.arrayOrganizationName[index];
+    this.setData({
+      organization: organization,
+      indexOrganization: index,
+    });
+  },
+
 
   //上传活动时候的照片
   chooseActivityImage: function (e) {
