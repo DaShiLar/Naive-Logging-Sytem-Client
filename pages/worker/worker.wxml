@@ -49,7 +49,7 @@
         <view class="weui-cell__hd">
           <view class="weui-label">跟访日期</view>
         </view>
-        <picker class="weui-btn" mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="dateChange">
+        <picker class="weui-btn" mode="date" value="{{date}}" bindchange="dateChange">
           <text class="weui-input">{{date}}</text>
         </picker>
       </view>
@@ -71,7 +71,7 @@
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__bd">
       <view style="display:{{showOther}}">  
-      <input placeholder="请输入其他方式" value="{{gfxs}}" bindinput="gfxsChange"/>
+      <input class="weui-input" placeholder="请输入其他方式" value="{{gfxs}}" bindinput="gfxsChange"/>
       </view>
       </view>
       </view>
@@ -122,7 +122,7 @@
         <view class="weui-cell__hd">
           <view class="weui-label">开始时间</view>
         </view>
-        <picker class="weui-btn" mode="time" value="{{beginTime}}" start="09:01" end="21:01" bindchange="bindBeginTimeChange">
+        <picker class="weui-btn" mode="time" value="{{beginTime}}" bindchange="bindBeginTimeChange">
             <text class="weui-input">{{beginTime}}</text>
         </picker>
       </view>
@@ -131,7 +131,7 @@
         <view class="weui-cell__hd">
           <view class="weui-label">结束时间</view>
         </view>
-        <picker class="weui-btn" mode="time" value="{{endTime}}" start="09:01" end="21:01" bindchange="bindEndTimeChange">
+        <picker class="weui-btn" mode="time" value="{{endTime}}" bindchange="bindEndTimeChange">
             <text class="weui-input">{{endTime}}</text>
         </picker>
       </view>

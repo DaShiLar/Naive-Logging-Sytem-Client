@@ -51,11 +51,22 @@ Page({
     pykf: "", //培育看法
     files: [], //用于浏览
     FilePaths: [], //上传的文件， 有视频和图像
+    latitude: "",
+    longitude: ""
   },
 
   onLoad: function(){
     console.log(this);
+    var that = this;
     var worker = wx.getStorageSync('worker');
+    wx.getLocation({
+      success: function(res) {
+        that.setData({
+          latitude: res.latitude,
+          longitude: res.longitude
+        });
+      },
+    });
     if(worker){
       console.log("LLLL");
       this.setData({
@@ -89,7 +100,7 @@ Page({
   },
 
   onUnload: function(){
-    console.log("leave");
+    console.log("leave worker");
     wx.setStorageSync('worker', this.data);
   },
 
@@ -165,46 +176,42 @@ Page({
   
   validate: function () {
 
-    //验证文字
-    for (var key in this.data) {
-      if (key == "__webviewId__") {
-        continue;
-      }
-      if (key == "beginTime" && this.data[key] =="请选择开始时间"){
+    //验证表单的完整性，至少应该包括开始时间，结束时间，日期，gfrxm,hdmc
+      
+      if (this.data['beginTime'] =="请选择开始时间"){
         wx.showToast({
           title: "请选择开始时间"
         });
         return false;
       }
 
-      if (key == "endTime" && this.data[key] == "请选择结束时间") {
+      if (this.data['endTime'] == "请选择结束时间") {
         wx.showToast({
           title: "请选择结束时间"
         });
         return false;
       }
 
-      if (key == "date" && this.data[key] == "请选择日期") {
+      if (this.data['date'] == "请选择日期") {
         wx.showToast({
           title: "请选择日期"
         });
         return false;
       }
 
-      if (key == "zzmc" && this.data[key] == "请点击选择社区名称") {
+      if (this.data['gfrxm'] == "") {
         wx.showToast({
-          title: "请选择社区名称"
+          title: "请输入跟访人姓名"
         });
         return false;
       }
 
-      if (this.data[key] == [] || this.data[key] == "") {
+      if (this.data['hdmc'] == "") {
         wx.showToast({
-          title: key + " 还没有填写，请补充完整后再提交"
+          title: "请输入活动名称"
         });
         return false;
       }
-    }
 
     //验证图片是否上传
     for (var pic in this.data.FilePaths) {
@@ -229,9 +236,12 @@ Page({
     }
     
     wx.request({
-      url: 'https://45053688.hazelnutsgz.com:444/worker/words',
+      url: 'https://45053688.hazelnutsgz.com:/log/worker/words',
       method: "POST",
       data: {
+        date: that.data.date, //日期
+        latitude: that.data.latitude, //经度
+        longitude: that.data.longitude, //纬度
         hdrs: that.data.hdrs, //活动人数
         gfrq: that.data.gfrq, //跟访日期
         beginTime: that.data.beginTime, //开始时间
@@ -248,11 +258,13 @@ Page({
         hdlc: that.data.hdlc, //活动流程
         yd: that.data.yd,   //优点
         qd: that.data.qd, //缺点
+        photo: [],        //照片空集
+        video: [],         //视频空集 
         yhjy: that.data.yhjy, //优化建议
         grgs: that.data.grgs, //个人感受
         zzzxq: that.data.zzzxq, //自组织需求
         pykf: that.data.pykf, //培育看法
-        FilePaths: [], //上传的文件， 有视频和图像
+        
       },
       success: function (res) {
         console.log(res);
@@ -277,7 +289,7 @@ Page({
     var that = this;
     console.log("uploadDIY");
     wx.uploadFile({
-      url: 'https://45053688.hazelnutsgz.com:444/worker/attach',
+      url: 'https://45053688.hazelnutsgz.com:/log/worker/attach',
       filePath: filePaths[i].path,
       name: 'file',
       formData: {

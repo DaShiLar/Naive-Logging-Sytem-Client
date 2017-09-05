@@ -3,11 +3,13 @@ var util = require('../../utils/util.js');
 
 Page({
   data: {
+    latitude: "",
+    longitude: "",
     files: [],
-    organization: "",
+    organization: "请选择组织名称",
     FilePaths: [],
-    date: "",
-    time: "12:01",
+    date: "请点击选择日期",
+    time: "请点击选择时间",
     location: "",
     joinNumber: "", //参加人数
     name: "",     //发声者名称
@@ -84,13 +86,35 @@ Page({
     })
   },
 
-  onLoad: function (options) {
-
-    console.log(util.getNowFormatDate());
-    this.setData({
-      date: util.getNowFormatDate()
+  onLoad: function () {
+    console.log(this);
+    var that = this;
+    var residence = wx.getStorageSync('residence');
+    wx.getLocation({
+      success: function (res) {
+        that.setData({
+          latitude: res.latitude,
+          longitude: res.longitude
+        });
+      },
     });
+    if (residence) {
+      console.log("LLLL");
+      this.setData({
+        organization: residence.organization,
+        date: residence.date,
+        time: residence.time,
+        location: residence.location,
+        joinNumber: residence.joinNumber, //参加人数
+        name: residence.name,     //发声者名称
+        feeling: residence.feeling,  //感受 
+        theme: residence.theme,
+        content: residence.content,
+        other: residence.other,
+        indexOrganization: residence.indexOrganization,
 
+      });
+    }
   },
 
   /**
@@ -118,7 +142,8 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    console.log("leave residence");
+    wx.setStorageSync('residence', this.data);
   },
 
   bindOrganizationChange: function (e) {
@@ -161,6 +186,7 @@ Page({
 
 
   bindDateChange: function (e) {
+    console.log(e.detail.value);
     this.setData({
       date: e.detail.value
     })
@@ -214,7 +240,7 @@ Page({
     var that = this;
     console.log("uploadDIY");
     wx.uploadFile({
-      url: 'https://45053688.hazelnutsgz.com:444/residence/pic',
+      url: 'https://45053688.hazelnutsgz.com:/log/residence/pic',
       filePath: filePaths[i].path,
       name: 'file',
       formData: {
@@ -251,35 +277,47 @@ Page({
     if (!this.validate()) {
       return;
     }
+    
     console.log("准备开始request words");
     wx.request({
-      url: 'https://45053688.hazelnutsgz.com:444/residence/words',
+      url: 'https://45053688.hazelnutsgz.com:/log/residence/words',
       method: "POST",
       data: {
+        latitude: that.data.latitude, 
+        longitude: that.data.longitude,
         date: that.data.date,      //日期
         time: that.data.time,       //时间
         location: that.data.location,      //位置
         organization: that.data.organization, //组织名称
         joinNumber: that.data.joinNumber, //参加人数
-        name: that.data.name,     //发声者名称
-        feeling: that.data.feeling,  //感受 
+        comment: [{
+          name: that.data.name,
+          feeling: that.data.feeling
+        }],
         theme: that.data.theme,       //主题
         content: that.data.content,   //内容
         other: that.data.other        //其他背景
       },
       success: function (res) {
         console.log(res);
+
+        //没有传图片，只发表感受
+        if (that.data.FilePaths.length==0){
+          wx.showToast({
+            title: '成功上传感受',
+          });
+          return;
+        }
+
+        //除了感受还有图片
         wx.showToast({
           title: '正在上传图片，请先不要关闭',
-        })
+        });
         var successUp = 0; //成功个数
         var failUp = 0; //失败个数
         var length = that.data.FilePaths.length; //总共个数
         var i = 0; //第几个
         that.uploadDIY(that.data.FilePaths, successUp, failUp, i, length);
-      },
-      complete: function (res) {
-        console.log("complete");
       },
     }),
       console.log("KKK");
@@ -291,36 +329,50 @@ Page({
 
   validate: function () {
 
-    //验证文字
-    for (var key in this.data) {
-      if (key == "__webviewId__") {
-        continue;
-      }
-      if (this.data[key] == [] || this.data[key] == "") {
-        wx.showToast({
-          title: key + " 还没有填写，请补充完整后再提交"
-        })
-        return false;
-      }
+    if(this.data.date=="请点击选择日期"){
+      wx.showToast({
+        title: '请选择活动日期',
+      })
+      return false;
+    }
+    if(this.data.organization=="请选择组织名称"){
+      wx.showToast({
+        title: '请选择组织名称',
+      })
+      return false;
+    }
+    if(this.data.name==""){
+      wx.showToast({
+        title: '请输入您的姓名',
+      })
+      return false;
+    }
+    if(this.data.feeling=="") {
+      wx.showToast({
+        title: '请输入您的感受',
+      })
+      return false;
     }
 
-    //验证图片是否上传
-    var hasActivity = false;
-    var hasSheet = false;
-    for (var pic in this.data.FilePaths) {
-      console.log(pic);
-      if (this.data.FilePaths[pic]['type'] == 'activity') {
-        hasActivity = true;
-      } if (this.data.FilePaths[pic]['type'] == 'sheet') {
-        hasSheet = true;
-      } if (hasSheet && hasActivity) {
-        return true;
-      }
-    }
-    wx.showToast({
-      title: '图片没有上传，请选择图片之后再上传',
-    })
-    return false;
+    return true;
+    
+    // //验证图片是否上传
+    // var hasActivity = false;
+    // var hasSheet = false;
+    // for (var pic in this.data.FilePaths) {
+    //   console.log(pic);
+    //   if (this.data.FilePaths[pic]['type'] == 'activity') {
+    //     hasActivity = true;
+    //   } if (this.data.FilePaths[pic]['type'] == 'sheet') {
+    //     hasSheet = true;
+    //   } if (hasSheet && hasActivity) {
+    //     return true;
+    //   }
+    // }
+    // wx.showToast({
+    //   title: '图片没有上传，请选择图片之后再上传',
+    // })
+    // return false;
 
   },
 

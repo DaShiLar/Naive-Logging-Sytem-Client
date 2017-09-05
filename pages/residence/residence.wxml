@@ -21,7 +21,7 @@
           <view class="weui-label">参与人数</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入参与人数" bindchange="bindJoinNumberChange" />
+          <input value="{{joinNumber}}" class="weui-input" placeholder="请输入参与人数" bindchange="bindJoinNumberChange" />
         </view>
       </view>
 
@@ -30,7 +30,7 @@
           <view class="weui-label">地点</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入地点" bindchange="bindLocationChange" />
+          <input value="{{location}}" class="weui-input" placeholder="请输入地点" bindchange="bindLocationChange" />
         </view>
       </view>
 
@@ -39,7 +39,7 @@
           <view class="weui-label">日期</view>
         </view>
         <view class="weui-cell__bd">
-          <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+          <picker mode="date" value="{{date}}" bindchange="bindDateChange">
             <view class="weui-input">{{date}}</view>
           </picker>
         </view>
@@ -49,7 +49,7 @@
           <view class="weui-label">时间</view>
         </view>
         <view class="weui-cell__bd">
-          <picker mode="time" value="{{time}}" start="09:01" end="21:01" bindchange="bindTimeChange">
+          <picker mode="time" value="{{time}}" bindchange="bindTimeChange">
             <view class="weui-input">{{time}}</view>
           </picker>
         </view>
@@ -61,7 +61,7 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入主题" bindchange="bindThemeChange" />
+          <input value="{{theme}}" class="weui-input" placeholder="请输入主题" bindchange="bindThemeChange" />
         </view>
       </view>
     </view>
@@ -70,7 +70,7 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell">
         <view class="weui-cell__bd">
-          <textarea class="weui-textarea" placeholder="请输入文本" style="height: 3.3em" bindinput="bindContentChange" />
+          <textarea value="{{content}}" class="weui-textarea" placeholder="请输入文本" style="height: 3.3em" bindinput="bindContentChange" />
           <view class="weui-textarea-counter">0/300</view>
         </view>
       </view>
@@ -80,7 +80,7 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入代表人姓名" bindchange="bindNameChange" />
+          <input value="{{name}}" class="weui-input" placeholder="请输入代表人姓名" bindchange="bindNameChange" />
         </view>
       </view>
     </view>
@@ -90,7 +90,7 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell">
         <view class="weui-cell__bd">
-          <textarea class="weui-textarea" placeholder="请输入您的感悟" style="height: 3.3em" bindinput="bindFeelingChange" />
+          <textarea value="{{feeling}}" class="weui-textarea" placeholder="请输入您的感悟" style="height: 3.3em" bindinput="bindFeelingChange" />
           <view class="weui-textarea-counter">0/300</view>
         </view>
       </view>
@@ -100,7 +100,7 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell">
         <view class="weui-cell__bd">
-          <textarea class="weui-textarea" placeholder="请输入文本" style="height: 3.3em" bindinput="bindOtherChange" />
+          <textarea value="{{other}}" class="weui-textarea" placeholder="请输入文本" style="height: 3.3em" bindinput="bindOtherChange" />
           <view class="weui-textarea-counter">0/300</view>
         </view>
       </view>
